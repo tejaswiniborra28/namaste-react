@@ -3,6 +3,7 @@ import RestaurantCard from "./Restaurant";
 import resList from "../utils/mockData";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 const Body = () => {
   const [ListOfRestaurant, setListOfRestaurant] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -29,11 +30,18 @@ const Body = () => {
       res?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
   };
+  const onlineStatus = useOnlineStatus();
 
   // conditional rendering using if
   // if (ListOfRestaurant.length === 0) {
   //   return <Shimmer />;
   // }
+
+  if (onlineStatus === false) {
+    return (
+      <h1>Looks like you are offline, please check internet and try again</h1>
+    );
+  }
 
   return ListOfRestaurant.length === 0 ? (
     <Shimmer />
